@@ -23,8 +23,8 @@ public class TwoPlayerScreen implements Screen, InputProcessor{
 		shapeRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(480,320);
 		mossPong = game;
-		Rectangle p1 = new Rectangle(200, -60, 20, 60); //right player
-		Rectangle p2 = new Rectangle(-220, -60, 20, 60); //left player
+		Rectangle p1 = new Rectangle(200, -60, 20, 60); //left player
+		Rectangle p2 = new Rectangle(-220, -60, 20, 60); //right player
 		player[0]=p1;
 		player[1]=p2;
 		Gdx.input.setInputProcessor(this);
@@ -44,16 +44,37 @@ public class TwoPlayerScreen implements Screen, InputProcessor{
 				temp.x=points[i].x;
 				temp.y=points[i].y;
 				temp = camera.unproject(temp);
-				Gdx.app.log("ERRORS","something");
 			}
 		}
 		//left player
 		if(temp.x<0){
-			player[1].y = temp.y;
+			if(temp.y > player[1].y){
+				player[1].y += 200*delta;
+			}
+			if(temp.y < player[1].y){
+				player[1].y -= 200*delta;
+			}
 		}
 		//right player
 		if(temp.x>0){
-			player[0].y = temp.y;
+			if(temp.y > player[0].y){
+				player[0].y += 200*delta;
+			}
+			if(temp.y < player[0].y){
+				player[0].y -= 200*delta;
+			}
+		}
+		if(player[1].y > 200){
+			player[1].y = 200;
+		}
+		if(player[1].y < -200){
+			player[1].y = 200;
+		}
+		if(player[0].y > 200){
+			player[0].y = 200;
+		}
+		if(player[0].y < -200){
+			player[0].y = -200;
 		}
 		camera.update();
 		shapeRenderer.setProjectionMatrix(camera.combined);
@@ -140,8 +161,12 @@ public class TwoPlayerScreen implements Screen, InputProcessor{
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
+		if(pointer<2){
+			points[pointer].x=screenX;
+			points[pointer].y=screenY;
+			points[pointer].touched = true;
+		}
+		return true;
 	}
 
 	@Override
