@@ -50,81 +50,27 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 				temp[i] = camera.unproject(temp[i]);
 			}
 		}
-		// swap so that if the first touch is the right players thumb then it
-		// applies to the correct player
-		//touch 1
-		if (temp[0].x > 0) {
-			if (temp[0].y > player[0].y) {
-				player[0].y += 200 * delta;
+		for(int i=0;i<player.length;i++){
+			if(player[i].y>100){
+				player[i].y=100;
 			}
-			if (temp[0].y < player[0].y) {
-				player[0].y -= 200 * delta;
+			if(player[i].y<-160){
+				player[i].y=-160;
 			}
-		} else {
-			if (temp[0].y > player[1].y) {
-				player[0].y += 200 * delta;
+			if(temp[i].x<0 && player[i].x<0){
+				if(temp[i].y>player[i].y){
+					player[i].y+=200*delta;
+				}else{
+					player[i].y-=200*delta;
+				}
 			}
-			if (temp[0].y < player[1].y) {
-				player[0].y -= 200 * delta;
+			if(temp[i].x>0 && player[i].x>0){
+				if(temp[i].y>player[i].y){
+					player[i].y+=200*delta;
+				}else{
+					player[i].y-=200*delta;
+				}
 			}
-		}
-		if (temp[0].x < 0) {
-			if (temp[0].y > player[1].y) {
-				player[1].y += 200 * delta;
-			}
-			if (temp[0].y < player[1].y) {
-				player[1].y -= 200 * delta;
-			}
-		} else {
-			if (temp[0].y > player[0].y) {
-				player[0].y += 200 * delta;
-			}
-			if (temp[0].y < player[1].y) {
-				player[0].y -= 200 * delta;
-			}
-		}
-		//check touch 0
-		if (temp[1].x < 0) {
-			if (temp[1].y > player[0].y) {
-				player[0].y += 200 * delta;
-			}
-			if (temp[1].y < player[0].y) {
-				player[0].y -= 200 * delta;
-			}
-		} else {
-			if (temp[1].y > player[1].y) {
-				player[0].y += 200 * delta;
-			}
-			if (temp[1].y < player[1].y) {
-				player[0].y -= 200 * delta;
-			}
-		}
-		if (temp[1].x > 0) {
-			if (temp[1].y > player[1].y) {
-				player[1].y += 200 * delta;
-			}
-			if (temp[1].y < player[1].y) {
-				player[1].y -= 200 * delta;
-			}
-		} else {
-			if (temp[1].y > player[0].y) {
-				player[0].y += 200 * delta;
-			}
-			if (temp[1].y < player[1].y) {
-				player[0].y -= 200 * delta;
-			}
-		}
-		if (player[0].y > 200) {
-			player[0].y = 200;
-		}
-		if (player[1].y < -200) {
-			player[1].y = 200;
-		}
-		if (player[0].y > 200) {
-			player[0].y = 200;
-		}
-		if (player[0].y < -200) {
-			player[0].y = -200;
 		}
 		camera.update();
 		shapeRenderer.setProjectionMatrix(camera.combined);
