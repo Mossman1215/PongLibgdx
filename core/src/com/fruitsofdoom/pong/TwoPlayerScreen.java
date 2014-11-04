@@ -20,7 +20,10 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 	Rectangle[] player = new Rectangle[2];
 	Vector3[] temp = new Vector3[2];
 	Ball ball = new Ball();
+	public int player0Score,player1Score;
 	public TwoPlayerScreen(Game game) {
+		player0Score = 0;
+		player1Score = 1;
 		shapeRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(480, 320);
 		mossPong = game;
@@ -75,6 +78,20 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 			}
 		}
 		ball.update(delta);
+		if(ball.bounding.overlaps(player[0])){
+			ball.bounceX();
+		}
+		if(ball.bounding.overlaps(player[1])){
+			ball.bounceX();
+		}
+		if(ball.position.x==220){
+			score(0);//score player 1
+			newRound();
+		}
+		if(ball.position.x==-240){
+			score(1);//score player 2
+			newRound();
+		}
 		camera.update();
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeType.Filled);
@@ -83,10 +100,19 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 				player[0].height);
 		shapeRenderer.rect(player[1].x, player[1].y, player[1].width,
 				player[1].height);
-		shapeRenderer.rect(ball.position.x,ball.position.y,20,20);
+		shapeRenderer.rect(ball.position.x,ball.position.y,ball.bounding.width,ball.bounding.height);
 		shapeRenderer.end();
 	}
-
+	public void score(int player){
+		if(player == 0){
+			player0Score++;
+		}else{
+			player1Score++;
+		}
+	}
+	public void newRound(){
+		ball = new Ball();
+	}
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
