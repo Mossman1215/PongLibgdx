@@ -7,6 +7,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
@@ -20,6 +22,8 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 	Rectangle[] player = new Rectangle[2];
 	Vector3[] temp = new Vector3[2];
 	Ball ball = new Ball();
+	BitmapFont font = new BitmapFont();
+	SpriteBatch batch = new SpriteBatch(256);
 	public int player0Score,player1Score;
 	public TwoPlayerScreen(Game game) {
 		player0Score = 0;
@@ -46,6 +50,12 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		batch.setProjectionMatrix(camera.projection);
+		batch.begin();
+		font.setScale(3);
+		font.draw(batch, ""+player0Score, -200, 140);
+		font.draw(batch, ""+player1Score, 180, 140);
+		batch.end();
 		for (int i = 0; i < points.length; i++) {
 			if (points[i].touched) {
 				temp[i].x = points[i].x;
@@ -147,6 +157,8 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 	public void dispose() {
 		// TODO Auto-generated method stub
 		this.shapeRenderer.dispose();
+		font.dispose();
+		batch.dispose();
 	}
 
 	@Override
