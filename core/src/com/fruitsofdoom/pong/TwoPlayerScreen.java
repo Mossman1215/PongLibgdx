@@ -19,7 +19,7 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 	TouchPos[] points = new TouchPos[2];
 	Rectangle[] player = new Rectangle[2];
 	Vector3[] temp = new Vector3[2];
-
+	Ball ball = new Ball();
 	public TwoPlayerScreen(Game game) {
 		shapeRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(480, 320);
@@ -60,18 +60,21 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 			if(temp[i].x<0 && player[i].x<0){
 				if(temp[i].y>player[i].y){
 					player[i].y+=200*delta;
-				}else{
+				}
+				if(temp[i].y<player[i].y){
 					player[i].y-=200*delta;
 				}
 			}
 			if(temp[i].x>0 && player[i].x>0){
 				if(temp[i].y>player[i].y){
 					player[i].y+=200*delta;
-				}else{
+				}
+				if(temp[i].y<player[i].y){
 					player[i].y-=200*delta;
 				}
 			}
 		}
+		ball.update(delta);
 		camera.update();
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeType.Filled);
@@ -80,6 +83,7 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 				player[0].height);
 		shapeRenderer.rect(player[1].x, player[1].y, player[1].width,
 				player[1].height);
+		shapeRenderer.rect(ball.position.x,ball.position.y,20,20);
 		shapeRenderer.end();
 	}
 
