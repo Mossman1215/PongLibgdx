@@ -10,20 +10,22 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class MainMenu implements Screen {
 	final Game mossPong;
 	OrthographicCamera camera;
 	ShapeRenderer shapeRenderer;
 	SpriteBatch batch = new SpriteBatch();
-	Rectangle menu1 = new Rectangle(x, y, width, height);
-	Rectangle menu2 = new Rectangle(x,y,width,height);
+	Rectangle menu1 = new Rectangle(-80, 60, 160, 50);
+	Rectangle menu2 = new Rectangle(-80,0,160,50);
 	BitmapFont font = new BitmapFont();
-	Vector2 touchpt = new Vector2();
+	Vector3 touchpt = new Vector3();
 	public MainMenu(final Game mossPong){
 		this.mossPong = mossPong;
 		camera = new OrthographicCamera(480, 320);
-		shapeRenderer = new ShapeRenderer(); 
+		shapeRenderer = new ShapeRenderer();
+		font.scale((float) 1.5);
 	}
 	@Override
 	public void render(float delta) {
@@ -36,18 +38,20 @@ public class MainMenu implements Screen {
 		shapeRenderer.rect(menu2.x, menu2.y, menu2.width, menu2.height);
 		shapeRenderer.end();
 		batch.begin();
-		font.draw(batch, "1 Player", menu1.x+10, menu1.y-10);
-		font.draw(batch, "2 Player", menu2.x+10, menu2.y-10);
+		font.draw(batch, "1 Player", menu1.x+250, menu1.y+200);
+		font.draw(batch, "2 Player", menu2.x+250, menu2.y+200);
 		batch.end();
 		if(Gdx.input.isTouched()){
 			int x = Gdx.input.getX();
 			int y = Gdx.input.getY();
 			touchpt.x = x;
 			touchpt.y = y;
-			if(menu1.contains(touchpt)){
+			touchpt.z = 0;
+			camera.unproject(touchpt);
+			if(menu1.contains(touchpt.x,touchpt.y)){
 				load1P();
 			}
-			if(menu2.contains(touchpt)){
+			if(menu2.contains(touchpt.x,touchpt.y)){
 				load2P();
 			}
 		}

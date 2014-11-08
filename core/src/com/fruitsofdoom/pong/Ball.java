@@ -7,6 +7,7 @@ public class Ball implements GameObject{
 	double directionX;
 	double directionY;
 	public Rectangle bounding;
+	double speedScale = .4;
 	public Ball() {
 		position = new Vector2(0, 0);
 		bounding = new Rectangle(position.x, position.y, 20, 20);
@@ -16,14 +17,14 @@ public class Ball implements GameObject{
 	@Override
 	public void update(float delta) {
 		if(directionX >0){
-			position.x+=200*delta;
+			position.x+=200*delta*speedScale;
 		}else{
-			position.x-=200*delta;
+			position.x-=200*delta*speedScale;
 		}
 		if(directionY >0){
-			position.y+=200*delta;
+			position.y+=200*delta*speedScale;
 		}else{
-			position.y-=200*delta;
+			position.y-=200*delta*speedScale;
 		}
 		if(position.x>220){
 			position.x = 220;
@@ -43,6 +44,7 @@ public class Ball implements GameObject{
 		bounding.y= position.y;
 	}
 	public void bounceX(){
+		speedScale = 1;
 		if(directionX<0){
 			directionX = 1;
 		}else{
