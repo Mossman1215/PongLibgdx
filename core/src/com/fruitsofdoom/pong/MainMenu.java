@@ -3,6 +3,7 @@ package com.fruitsofdoom.pong;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,29 +18,29 @@ public class MainMenu implements Screen {
 	OrthographicCamera camera;
 	ShapeRenderer shapeRenderer;
 	SpriteBatch batch = new SpriteBatch();
-	Rectangle menu1 = new Rectangle(-80, 60, 160, 50);
-	Rectangle menu2 = new Rectangle(-80,0,160,50);
+	Rectangle menu1 = new Rectangle(-90, 80, 180, 60);
+	Rectangle menu2 = new Rectangle(-90,0,180,60);
 	BitmapFont font = new BitmapFont();
 	Vector3 touchpt = new Vector3();
 	public MainMenu(final Game mossPong){
 		this.mossPong = mossPong;
 		camera = new OrthographicCamera(480, 320);
 		shapeRenderer = new ShapeRenderer();
-		font.scale((float) 1.5);
+		font.scale(2);
 	}
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
-		camera.update();
 		shapeRenderer.setProjectionMatrix(camera.combined);
-		shapeRenderer.begin(ShapeType.Line);
-		shapeRenderer.setColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		shapeRenderer.setColor(1, 0, 1, 1);
+		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.rect(menu1.x,menu1.y,menu1.width,menu1.height);
 		shapeRenderer.rect(menu2.x, menu2.y, menu2.width, menu2.height);
 		shapeRenderer.end();
 		batch.begin();
-		font.draw(batch, "1 Player", menu1.x+250, menu1.y+200);
-		font.draw(batch, "2 Player", menu2.x+250, menu2.y+200);
+		font.draw(batch, "1 Player", menu1.x+250, menu1.y+210);
+		font.draw(batch, "2 Player", menu2.x+250, menu2.y+210);
 		batch.end();
 		if(Gdx.input.isTouched()){
 			int x = Gdx.input.getX();
@@ -57,6 +58,7 @@ public class MainMenu implements Screen {
 		}
 	}
 	public void load1P(){
+		mossPong.setScreen(new OnePlayerScreen(mossPong));
 		this.dispose();
 	}
 	public void load2P(){
