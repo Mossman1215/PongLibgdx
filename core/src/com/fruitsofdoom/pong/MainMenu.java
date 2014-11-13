@@ -18,8 +18,8 @@ public class MainMenu implements Screen {
 	OrthographicCamera camera;
 	ShapeRenderer shapeRenderer;
 	SpriteBatch batch = new SpriteBatch();
-	Rectangle menu1 = new Rectangle(-90, 80, 180, 60);
-	Rectangle menu2 = new Rectangle(-90,0,180,60);
+	Rectangle menu1 = new Rectangle(-90, 40, 180, 60);
+	Rectangle menu2 = new Rectangle(-90,-40,180,60);
 	BitmapFont font = new BitmapFont();
 	Vector3 touchpt = new Vector3();
 	public MainMenu(final Game mossPong){
@@ -33,12 +33,13 @@ public class MainMenu implements Screen {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		shapeRenderer.setColor(1, 0, 1, 1);
-		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(1, 1, 1, 1);
+		shapeRenderer.begin(ShapeType.Line);
 		shapeRenderer.rect(menu1.x,menu1.y,menu1.width,menu1.height);
 		shapeRenderer.rect(menu2.x, menu2.y, menu2.width, menu2.height);
 		shapeRenderer.end();
 		batch.begin();
+		font.draw(batch, "Moss Pong", menu1.x+210, menu1.y+270);
 		font.draw(batch, "1 Player", menu1.x+250, menu1.y+210);
 		font.draw(batch, "2 Player", menu2.x+250, menu2.y+210);
 		batch.end();

@@ -25,9 +25,10 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 	BitmapFont font = new BitmapFont();
 	SpriteBatch batch = new SpriteBatch(256);
 	public int player0Score,player1Score;
+	public Rectangle returnbox = new Rectangle(-70, -160, 120, 40);
 	public TwoPlayerScreen(Game game) {
 		player0Score = 0;
-		player1Score = 1;
+		player1Score = 0;
 		shapeRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(480, 320);
 		mossPong = game;
@@ -53,6 +54,7 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 		batch.setProjectionMatrix(camera.projection);
 		batch.begin();
 		font.setScale(3);
+		font.draw(batch, "return",-70, -120);
 		font.draw(batch, ""+player0Score, -200, 140);
 		font.draw(batch, ""+player1Score, 180, 140);
 		batch.end();
@@ -62,6 +64,9 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 				temp[i].y = points[i].y;
 				temp[i] = camera.unproject(temp[i]);
 			}
+		}
+		if(returnbox.contains(temp[0].x,temp[0].y)){
+			loadMainMenu(mossPong);
 		}
 		for(int i=0;i<player.length;i++){
 			if(player[i].y>100){
@@ -104,6 +109,10 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 		}
 		camera.update();
 		shapeRenderer.setProjectionMatrix(camera.combined);
+		shapeRenderer.begin(ShapeType.Line);
+		shapeRenderer.setColor(1, 1, 1, 1);
+		shapeRenderer.rect(returnbox.x,returnbox.y,returnbox.width,returnbox.height);
+		shapeRenderer.end();
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(1, 1, 1, 1);
 		shapeRenderer.rect(player[0].x, player[0].y, player[0].width,
@@ -112,6 +121,9 @@ public class TwoPlayerScreen implements Screen, InputProcessor {
 				player[1].height);
 		shapeRenderer.rect(ball.position.x,ball.position.y,ball.bounding.width,ball.bounding.height);
 		shapeRenderer.end();
+	}
+	public void loadMainMenu(Game game){
+		game.setScreen(new MainMenu(game));
 	}
 	public void score(int player){
 		if(player == 0){
