@@ -38,10 +38,11 @@ public class MainMenu implements Screen {
 		shapeRenderer.rect(menu1.x,menu1.y,menu1.width,menu1.height);
 		shapeRenderer.rect(menu2.x, menu2.y, menu2.width, menu2.height);
 		shapeRenderer.end();
+		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		font.draw(batch, "Moss Pong", menu1.x+210, menu1.y+270);
-		font.draw(batch, "1 Player", menu1.x+250, menu1.y+210);
-		font.draw(batch, "2 Player", menu2.x+250, menu2.y+210);
+		font.draw(batch, "Moss Pong", menu1.x-15, menu1.y+110);
+		font.draw(batch, "1 Player", menu1.x+10, menu1.y+menu1.height-10);
+		font.draw(batch, "2 Player", menu2.x+10, menu2.y+menu2.height-10);
 		batch.end();
 		if(Gdx.input.isTouched()){
 			int x = Gdx.input.getX();
